@@ -213,7 +213,7 @@ class CsccNotifier(object):
         new_findings = self._transform_for_api(violations,
                                                source_id=source_id)
 
-        client = securitycenter.SecurityCenterClient(version='v1beta1')
+        client = securitycenter.SecurityCenterClient(version='v1')
 
         paged_findings_in_cscc = client.list_findings(source_id=source_id)
 
