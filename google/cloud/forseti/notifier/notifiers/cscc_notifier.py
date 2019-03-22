@@ -223,14 +223,17 @@ class CsccNotifier(object):
             formated_findings_in_page = (
                 ast.literal_eval(json.dumps(page)))
             findings_in_page = formated_findings_in_page.get('findings')
-            for finding_data in findings_in_page:
-                name = finding_data.get('name')
-                finding_id = name[-32:]
-                formatted_cscc_findings.append([finding_id, finding_data])
+            print('findings in page:', findings_in_page)
+            if findings_in_page:
+                for finding_data in findings_in_page:
+                    name = finding_data.get('name')
+                    finding_id = name[-32:]
+                    formatted_cscc_findings.append([finding_id, finding_data])
 
-        inactive_findings = self.find_inactive_findings(
-            new_findings,
-            formatted_cscc_findings)
+        if formatted_cscc_findings:
+            inactive_findings = self.find_inactive_findings(
+                new_findings,
+                formatted_cscc_findings)
 
         for finding_list in new_findings:
             finding_id = finding_list[0]
