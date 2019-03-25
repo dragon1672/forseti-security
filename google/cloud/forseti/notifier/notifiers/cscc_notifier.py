@@ -189,6 +189,8 @@ class CsccNotifier(object):
 
             if finding_id not in new_findings_map:
                 to_be_updated_finding['state'] = 'INACTIVE'
+                to_be_updated_finding['source_properties'] = (
+                    to_be_updated_finding.pop('sourceProperties'))
                 current_time = date_time.get_utc_now_datetime()
                 actual_time = current_time.strftime(
                     string_formats.TIMESTAMP_TIMEZONE)
@@ -222,8 +224,10 @@ class CsccNotifier(object):
         for page in paged_findings_in_cscc:
             formated_findings_in_page = (
                 ast.literal_eval(json.dumps(page)))
-            findings_in_page = formated_findings_in_page.get('findings')
-            for finding_data in findings_in_page:
+            list_findings_result_paged = (
+                formated_findings_in_page.get('listFindingsResults'))
+            for findings_in_page in list_findings_result_paged:
+                finding_data = findings_in_page.get('finding')
                 name = finding_data.get('name')
                 finding_id = name[-32:]
                 formatted_cscc_findings.append([finding_id, finding_data])
